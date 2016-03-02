@@ -29,7 +29,11 @@ RUN curl -sSL "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "aws.zip" 
     ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
     rm -rf aws.zip awscli-bundle
 
-RUN mkdir -p /root/.aws
-VOLUME /root/.aws
+RUN adduser -h /home/user -D user
+
+RUN mkdir -p /home/user/.aws
+VOLUME /home/user/.aws
+
+USER user
 
 CMD /bin/sh
