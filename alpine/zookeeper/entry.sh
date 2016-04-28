@@ -11,6 +11,8 @@ cat > ${ZK_HOME}/conf/zoo.cfg <<EOF
 tickTime=${ZK_TICK_TIME:-2000}
 clientPort=${ZK_CLIENT_PORT:-2181}
 dataDir=${ZK_DATA_DIR:-/tmp/zookeeper}
+initLimit=${ZK_INIT_LIMIT:-10}
+syncLimit=${ZK_SYNC_LIMIT:-5}
 EOF
 
 # Populate server pool in zoo.cfg
