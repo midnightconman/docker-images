@@ -8,8 +8,8 @@ ARG ZK_URL="http://apache.mirrors.pair.com/zookeeper"
 ARG ZK_HOME="/opt/zookeeper"
 
 RUN set -ex \
-      && addgroup -G ${GID} zookeeper\
-      && adduser -S -G ${GID} -u ${UID} zookeeper\
+      && addgroup -g ${GID} zookeeper\
+      && adduser -S -G zookeeper -u ${UID} zookeeper\
       && apk add --no-cache \
            bash \
       && apk add --no-cache --virtual .build-deps \
