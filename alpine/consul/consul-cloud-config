@@ -1,0 +1,43 @@
+#cloud-config
+
+write_files:
+    - path: /etc/consul/config.json
+      permissions: 0644
+      content: |
+        {
+          "datacenter": "aws-us-west-2",
+          "bootstrap_expect": 3,
+          "server": true,
+          "data_dir": "/var/consul",
+          "log_level": "INFO",
+          "enable_syslog": false,
+          "retry_join": [
+            "consul01.midnightconman.com",
+            "consul02.midnightconman.com",
+            "consul03.midnightconman.com",
+            "consul04.midnightconman.com",
+            "consul05.midnightconman.com"
+          ],
+          "client_addr": "0.0.0.0",
+          "ports": {
+            "dns": 53,
+            "http": 8500,
+            "https": -1
+          }
+        }
+
+coreos:
+  units:
+    - name: consul-docker.service
+      command: start
+      content: |
+        [Unit]
+        Description=Start consul service on docker
+        After=docker.service
+        Requires=docker.service
+
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        ExecStart=/usr/bin/docker run -d --name consul -v /etc/consul:/etc/consul -p 53:53 -p 53:53/udp -p 8300-8302:8300-8302 -p 8301:8301/udp -p 8302:8302/udp -p 8400:8400 -p 8500:8500 midnightconman/consul:0.6.4 agent -config-dir=/etc/consul -advertise=$ip_address
+
