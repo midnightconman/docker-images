@@ -1,29 +1,31 @@
-FROM golang:1.6.0-alpine
+FROM alpine:3.3
 MAINTAINER Jon Campbell https://github.com/midnightconman
 
-ENV PACKER_VERSION="0.10.0" \
-    PACKER_REPOSITORY="https://github.com/mitchellh/packer.git" \
-    XC_ARCH="amd64" \
-    XC_OS="linux" \
-    TF_DEV="NO" 
+ARG VERSION="${VERSION:-0.10.1}"
+ARG URL="${URL:-https://releases.hashicorp.com/packer/${VERSION}/packer_${VERSION}_linux_amd64.zip}"
+ARG CHECKSUM="${CHECKSUM:-7d51fc5db19d02bbf32278a8116830fae33a3f9bd4440a58d23ad7c863e92e28}"
+
+ENV PACKER_VERSION="${VERSION}"
 
 RUN set -ex \
       && apk add --no-cache --virtual .build-deps \
-           bash \
-           git \
-           make \
+           curl \
       \
-      && mkdir -p ${GOPATH}/src/github.com/hashicorp/ \
-      && cd ${GOPATH}/src/github.com/hashicorp \
-      && git clone --branch v${TERRAFORM_VERSION} ${TERRAFORM_REPOSITORY} \
-      && go get github.com/tools/godep \
-      && cd ${GOPATH}/src/github.com/hashicorp/terraform \
-      && godep restore \
-      && make bin \
-      \
-      && mv ${GOPATH}/src/github.com/hashicorp/terraform/pkg/linux_amd64/* /go/bin/ \
-      \
-      && rm -rf ${GOPATH}/src/* \
+      && mkdir -p \
+           /root/.aws \
+           /root/.ssh \
+           /tmp \
+      && curl -sSL -o packer_${VERSION}_linux_amd64.zip ${URL} \
+      && echo "${CHECKSUM}  packer_${VERSION}_linux_amd64.zip" | sha256sum -c -s \
+      && unzip packer_${VERSION}_linux_amd64.zip \
+      && mv packer /bin/packer \
+      && rm -rf packer_${VERSION}_linux_amd64.zip \
       && apk del .build-deps
 
-CMD ["/go/bin/terraform"]
+VOLUME ["/root/.aws", "/root/.ssh", "/tmp"]
+
+WORKDIR /tmp
+
+ENTRYPOINT ["/bin/packer"]
+
+CMD ["help"]

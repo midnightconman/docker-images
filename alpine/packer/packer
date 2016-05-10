@@ -1,0 +1,34 @@
+#!/usr/bin/env /bin/sh
+
+run_packer() {
+  exec /go/bin/packer "$@" /tmp/packer.json
+}
+
+case $1 in
+build)
+  cat /dev/stdin > /tmp/packer.json
+  run_packer
+  ;;
+fix)
+  cat /dev/stdin > /tmp/packer.json
+  run_packer
+  ;;
+inspect)
+  cat /dev/stdin > /tmp/packer.json
+  run_packer
+  ;;
+push)
+  cat /dev/stdin > /tmp/packer.json
+  run_packer
+  ;;
+validate)
+  cat /dev/stdin > /tmp/packer.json
+  run_packer
+  ;;
+version)
+  /go/bin/packer version
+  ;;
+*)
+  /go/bin/packer
+
+esac
