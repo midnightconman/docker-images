@@ -1,10 +1,10 @@
-FROM alpine:3.3
+FROM alpine:3.6
 MAINTAINER Jon Campbell https://github.com/midnightconman
 
-ARG VERSION="${VERSION:-0.1.0}"
-ARG USERID="${USERID:-500}"
-ARG CHECKSUM="${CHECKSUM:-71b128f33611dcefd810e0d697e7a60934b576905475059d69dabc300671b985}"
-ARG URL="${URL:-https://raw.githubusercontent.com/midnightconman/jenkins-slave-register/master}"
+ARG VERSION="0.1.0"
+ARG USERID="500"
+ARG CHECKSUM="71b128f33611dcefd810e0d697e7a60934b576905475059d69dabc300671b985"
+ARG URL="https://raw.githubusercontent.com/midnightconman/jenkins-slave-register/master"
 
 ENV REGISTER_VERSION=${VERSION}
 
