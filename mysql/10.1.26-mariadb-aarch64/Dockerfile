@@ -10,7 +10,8 @@ RUN set -ex \
            mysql=${VERSION}-r0 \
            mysql-client=${VERSION}-r0 \
       && mkdir -p /run/mysqld \
-	    && chown -R mysql:mysql /run/mysqld
+	    && chown -R mysql:mysql /run/mysqld \
+	    && sed -i 's/mysql:x:100:101:mysql:\/var\/lib\/mysql:\/sbin\/nologin/mysql:x:1001:1001:mysql:\/var\/lib\/mysql:\/sbin\/nologin/g' /etc/passwd
 
 EXPOSE 3306
 
