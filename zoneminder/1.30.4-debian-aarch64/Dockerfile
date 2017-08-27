@@ -21,7 +21,9 @@ RUN set -ex \
          libjpeg62-turbo \
          libmime-lite-perl \
          libmime-tools-perl \
+         libsys-cpu-perl \
          libsys-mmap-perl \
+         libsys-meminfo-perl \
          libtool \
          libvlc5 \
          libvlccore8 \
