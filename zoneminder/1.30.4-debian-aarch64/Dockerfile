@@ -93,9 +93,7 @@ RUN set -ex \
 
 ADD entry.sh /
 
-EXPOSE 80
-
-VOLUME ["/var/lib/zoneminder/images", "/var/lib/zoneminder/events", "/var/log/zm"]
+EXPOSE 8080
 
 ENTRYPOINT ["/entry.sh"]
 CMD [""]
